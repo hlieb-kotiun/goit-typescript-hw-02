@@ -5,22 +5,29 @@ import ImageGallery from "../ImageGallery/ImageGallery";
 import s from "./App.module.css";
 import LoadMore from "../LoadMore/LoadMore";
 import ImageModal from "../ImageModal/ImageModal";
-import Modal from "react-modal";
+// import Modal from "react-modal";
+
+type Images = {
+  id: string,
+
+}
 
 function App() {
   const [images, setImages] = useState([]);
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [selectedImgId, setSelectedImgId] = useState(null);
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [error, setError] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedImgId, setSelectedImgId] = useState<string | null>(null);
+
+  console.log("images : ", images);
 
   useEffect(() => {
     if (query === "") {
       return;
     }
-    const fetchImages = async () => {
+    const fetchImages = async(): Promise<void> => {
       try {
         setError(false);
         setLoader(true);
@@ -28,7 +35,7 @@ function App() {
         const results = await searchImagesByParams(query, page);
         console.log(results.data.results);
 
-        setImages((prev) => [...prev, ...results.data.results]);
+        setImages((prev: ) => [...prev, ...results.data.results]);
       } catch (error) {
         setError(true);
         console.log(error);
@@ -40,24 +47,24 @@ function App() {
     fetchImages();
   }, [query, page]);
 
-  const handleQuery = (userQuery) => {
+  const handleQuery = (userQuery: string) => {
     setImages([]);
     setPage(1);
     setQuery(userQuery);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage((prev) => prev + 1);
   };
 
   // Modal toggle
 
-  const openModal = (id) => {
+  const openModal = (id: string): void => {
     setSelectedImgId(id);
     setIsOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setIsOpen(false);
   };
 

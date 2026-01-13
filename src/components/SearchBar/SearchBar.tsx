@@ -2,13 +2,26 @@ import { IoSearch } from "react-icons/io5";
 import s from "./SearchBar.module.css";
 import { Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
+import { ReactElement } from "react";
+import type { FormikHelpers } from "formik";
 
-const SearchBar = ({ setQuery }) => {
-  const initialValues = {
+type SearchBarProps = {
+  setQuery: (value: string) => void;
+};
+
+type FormTypes = {
+  query: string;
+};
+
+const SearchBar = ({ setQuery }: SearchBarProps): ReactElement => {
+  const initialValues: FormTypes = {
     query: "",
   };
 
-  const onSubmit = (values, actions) => {
+  const onSubmit = (
+    values: FormTypes,
+    actions: FormikHelpers<FormTypes>
+  ): void => {
     if (values.query === "") {
       toast.error("Field must be filled!", { position: "top-right" });
       return;

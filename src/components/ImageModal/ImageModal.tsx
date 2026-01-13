@@ -2,11 +2,38 @@ import Modal from "react-modal";
 import s from "./ImageModal.module.css";
 import { FcLike } from "react-icons/fc";
 import { IoIosCreate } from "react-icons/io";
+import { Images } from "../types";
+import { ReactElement } from "react";
 
-const ImageModal = ({ closeModal, modalIsOpen, selectedImgId, images }) => {
+type ImageModalProps = {
+  closeModal: () => void;
+  modalIsOpen: boolean;
+  selectedImgId: string | null;
+  images: Images[];
+};
+
+type Content = {
+  [key: string]: string;
+};
+
+type Overlay = {
+  [key: string]: string;
+};
+
+type CustomStyles = {
+  content: Content;
+  overlay: Overlay;
+};
+
+const ImageModal = ({
+  closeModal,
+  modalIsOpen,
+  selectedImgId,
+  images,
+}: ImageModalProps): ReactElement => {
   Modal.setAppElement("#root");
 
-  const customStyles = {
+  const customStyles: CustomStyles = {
     content: {
       top: "50%",
       left: "50%",
@@ -24,7 +51,7 @@ const ImageModal = ({ closeModal, modalIsOpen, selectedImgId, images }) => {
 
   const selectedImage = images.find((item) => item.id === selectedImgId);
 
-  const time = new Date(selectedImage.created_at);
+  const time: Date = new Date(selectedImage?.created_at);
 
   const month = time.getMonth();
   const year = time.getFullYear();

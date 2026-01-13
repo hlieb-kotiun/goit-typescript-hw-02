@@ -1,6 +1,11 @@
+import { ReactElement } from "react";
 import s from "./LoadMore.module.css";
 
-const LoadMore = ({ handleLoadMore }) => {
+type LoadMoreProps = {
+  handleLoadMore: () => void;
+};
+
+const LoadMore = ({ handleLoadMore }: LoadMoreProps): ReactElement => {
   return (
     <button className={s.btn} onClick={handleLoadMore}>
       Load more

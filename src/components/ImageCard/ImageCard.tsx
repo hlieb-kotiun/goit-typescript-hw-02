@@ -1,6 +1,13 @@
+import { ReactElement } from "react";
+import { Images } from "../types";
 import s from "./ImageCard.module.css";
 
-const ImageCard = ({ openModal, item }) => {
+type ImageCardProps = {
+  item: Images;
+  openModal: (id: string) => void;
+};
+
+const ImageCard = ({ openModal, item }: ImageCardProps): ReactElement => {
   return (
     <div>
       <img

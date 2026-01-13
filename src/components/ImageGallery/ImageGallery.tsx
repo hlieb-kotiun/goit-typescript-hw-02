@@ -1,18 +1,23 @@
+import { ReactElement } from "react";
 import ImageCard from "../ImageCard/ImageCard";
+import { Images } from "../types";
 import s from "./ImageGallery.module.css";
 
-const ImageGallery = ({ images, openModal }) => {
+type ImageGalleryProps = {
+  images: Images[];
+  openModal: (id: string) => void;
+};
+
+const ImageGallery = ({
+  images,
+  openModal,
+}: ImageGalleryProps): ReactElement => {
   return (
     <ul className={s.list}>
       {images.map((item) => {
         return (
           <li className={s.item} key={item.id}>
-            <ImageCard
-              item={item}
-              img={item.urls.small}
-              alt={item.slug}
-              openModal={openModal}
-            />
+            <ImageCard item={item} openModal={openModal} />
           </li>
         );
       })}

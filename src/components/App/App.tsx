@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import { searchImagesByParams } from "../../unsplash-api";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import s from "./App.module.css";
 import LoadMore from "../LoadMore/LoadMore";
 import ImageModal from "../ImageModal/ImageModal";
+import { Images } from "../types";
 // import Modal from "react-modal";
 
-type Images = {
-  id: string,
-
-}
-
-function App() {
-  const [images, setImages] = useState([]);
+function App(): ReactElement {
+  const [images, setImages] = useState<Images[]>([]);
   const [query, setQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
@@ -21,21 +17,18 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [selectedImgId, setSelectedImgId] = useState<string | null>(null);
 
-  console.log("images : ", images);
-
   useEffect(() => {
     if (query === "") {
       return;
     }
-    const fetchImages = async(): Promise<void> => {
+    const fetchImages = async (): Promise<void> => {
       try {
         setError(false);
         setLoader(true);
 
         const results = await searchImagesByParams(query, page);
-        console.log(results.data.results);
 
-        setImages((prev: ) => [...prev, ...results.data.results]);
+        setImages((prev) => [...prev, ...results.data.results]);
       } catch (error) {
         setError(true);
         console.log(error);
@@ -47,7 +40,7 @@ function App() {
     fetchImages();
   }, [query, page]);
 
-  const handleQuery = (userQuery: string) => {
+  const handleQuery = (userQuery: string): void => {
     setImages([]);
     setPage(1);
     setQuery(userQuery);
@@ -58,7 +51,6 @@ function App() {
   };
 
   // Modal toggle
-
   const openModal = (id: string): void => {
     setSelectedImgId(id);
     setIsOpen(true);
@@ -70,7 +62,7 @@ function App() {
 
   return (
     <div className={s.wrapper}>
-      <SearchBar setQuery={handleQuery} query={query} />
+      <SearchBar setQuery={handleQuery} />
       <h2>Gallery</h2>
       {images.length === 0 ? (
         <p className={s.message}>There is no images yet!</p>
@@ -89,7 +81,6 @@ function App() {
           images={images}
         />
       )}
-      {/* <button onClick={openModal}>Open Modal</button> */}
     </div>
   );
 }

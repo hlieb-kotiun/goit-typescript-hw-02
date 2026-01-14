@@ -26,9 +26,9 @@ function App(): ReactElement {
         setError(false);
         setLoader(true);
 
-        const results = await searchImagesByParams(query, page);
+        const results: Images[] = await searchImagesByParams(query, page);
 
-        setImages((prev) => [...prev, ...results.data.results]);
+        setImages((prev) => [...prev, ...results]);
       } catch (error) {
         setError(true);
         console.log(error);

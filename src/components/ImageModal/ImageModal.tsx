@@ -49,12 +49,14 @@ const ImageModal = ({
     },
   };
 
-  const selectedImage = images.find((item) => item.id === selectedImgId);
+  const selectedImage: Images | undefined =
+    images && images.find((item) => item.id === selectedImgId);
 
-  const time: Date = new Date(selectedImage?.created_at);
+  const time: Date | undefined =
+    selectedImage && new Date(selectedImage.created_at);
 
-  const month = time.getMonth();
-  const year = time.getFullYear();
+  const month: number | undefined = time && time.getMonth();
+  const year: number | undefined = time && time.getFullYear();
 
   return (
     <div>
@@ -66,15 +68,15 @@ const ImageModal = ({
       >
         <img
           className={s.img}
-          src={selectedImage.urls.regular}
-          alt={selectedImage.alt_description}
+          src={selectedImage?.urls.regular}
+          alt={selectedImage?.alt_description}
         />
         <div className={s.info}>
           <p className={s.txt}>
-            <FcLike /> {selectedImage.likes}
+            <FcLike /> {selectedImage?.likes}
           </p>
           <p className={s.txt}>
-            <IoIosCreate /> at {(month, year)}
+            <IoIosCreate /> at {`${month}.${year}`}
           </p>
         </div>
       </Modal>
@@ -83,5 +85,3 @@ const ImageModal = ({
   );
 };
 export default ImageModal;
-
-// likes, updated_at, urls, alt_description;
